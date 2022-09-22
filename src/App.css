@@ -1,0 +1,12 @@
+.container,
+.line-chart,
+h1 {
+  display: flex;
+  justify-content: center;
+  margin-top: 25px;
+}
+
+.label,
+.selector { 
+  margin-right: 15px;
+}
