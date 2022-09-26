@@ -1,3 +1,4 @@
-# vitejs-vite-4ub3eg
+# Tecnologias usadas
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/vitejs-vite-4ub3eg)
++ recharts
++ ViteJS
