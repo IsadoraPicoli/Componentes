@@ -1,8 +1,7 @@
 import { useState } from 'react';
-import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import './data/amzn.json';
-import './data/npkgz.json';
-import './data/openjdk.json';
+import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import _ from 'lodash';
+import originalData from './data/npkgz.json';
 import './App.css';
 
 const SERIES = ["day", "week", "mouth", "year"];
@@ -17,19 +16,33 @@ function App() {
 
   const handleChangeScale = event =>
     setScale(event.target.value);
-  const data = [{Starred_at: 'Page A', uv: 400, pv: 2400, Stargazers: 2400}, {Starred_at: 'Page B', uv: 800, pv: 5000, Stargazers: 5000}, {Starred_at: 'Page C', uv: 100, pv: 700, Stargazers: 700}];
-  
+
+  const transformedDataset = 
+    originalData.map((data) => {
+     data.starred_at = new Date(data.starred_at);
+
+     data.day = data.starred_at.getDate();
+     data.quantidadeDia = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}-${record.day}`);
+
+     data.month = data.starred_at.getMonth();
+     data.quantidadeMes = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}`);
+
+     data.year = data.starred_at.getFullYear();
+     data.quantidadeAno = _.countBy(transformedDataset, 'year');
+
+     return data; 
+    });
+
   return (
     <div>
       <h1>Visualização de dados temporais de estrelas no GitHub</h1>
 
       <div className="line-chart">
-        <LineChart width={400} height={400} data={data}>
-          <Line type="monotone" dataKey="uv" stroke="#ef476f" />
-          <Line type="monotone" dataKey="pv" stroke="#06d6a0" />
+        <LineChart width={400} height={400} data={transformedDataset}>
+          <Line type="monotone" dataKey="quantidadeAno" stroke="#ef476f" />
           <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-          <XAxis dataKey="Starred_at" />
-          <YAxis dataKey="Stargazers" />
+          <XAxis dataKey="year" />
+          <YAxis />
           <Tooltip />
           <Legend />
         </LineChart>
