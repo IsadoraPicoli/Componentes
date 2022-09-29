@@ -30,9 +30,9 @@ function App() {
   quantidadeMes = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}`);
   quantidadeAno = _.countBy(transformedDataset, 'year');
 
-  const final = Object.entries(quantidadeAno).map(dado => {
-    'year', dado[0]
-    'quantidadeAno', dado[1]
+  const final = Object.entries(quantidadeAno).map((dado) => {
+    dado.year = dado[0],
+    dado.quantidadeAno = dado[1]
   });
 
   return (
