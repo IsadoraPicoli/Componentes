@@ -26,13 +26,15 @@ function App() {
      return data; 
     });
 
-  quantidadeDia = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}-${record.day}`);
-  quantidadeMes = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}`);
-  quantidadeAno = _.countBy(transformedDataset, 'year');
+  const quantidadeDia = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}-${record.day}`);
+  const quantidadeMes = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}`);
+  const quantidadeAno = _.countBy(transformedDataset, 'year');
 
   const final = Object.entries(quantidadeAno).map((dado) => {
-    dado.year = dado[0],
-    dado.quantidadeAno = dado[1]
+    return {
+      'year': dado[0],
+      'quantidadeAno': dado[1]
+    }
   });
 
   return (
@@ -46,7 +48,6 @@ function App() {
         <XAxis dataKey="year" />
         <YAxis />
         <Tooltip />
-        <Legend />
       </LineChart>
     </div>
 
