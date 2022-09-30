@@ -5,7 +5,7 @@ import originalData from './data/npkgz.json';
 import './App.css';
 
 const SERIES = ["day", "week", "mouth", "year"];
-const SCALE = ["Linear", "Logaritmic",];
+const SCALE = ["Linear", "Logaritmic"];
 
 function App() {
   const [series, setSeries] = useState(SERIES[0]);
@@ -21,19 +21,29 @@ function App() {
     originalData.map((data) => {
      data.starred_at = new Date(data.starred_at);
      data.day = data.starred_at.getDate();
+     data.week = data.starred_at.getDay();
      data.month = data.starred_at.getMonth();
      data.year = data.starred_at.getFullYear();
      return data; 
     });
 
   const quantidadeDia = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}-${record.day}`);
+  const quantidadeSemana = _.countBy(transformedDataset, (record) => `${record.week}`);
   const quantidadeMes = _.countBy(transformedDataset, (record) => `${record.year}-${record.month}`);
   const quantidadeAno = _.countBy(transformedDataset, 'year');
-
-  const final = Object.entries(quantidadeAno).map((dado) => {
+/*
+  function convertObject(quantidade) {
+    Object.entries(quantidade).map((dado) => {
+      return {
+        'Data': dado[0],
+        'Quantidade': dado[1]
+      }
+    });
+  }*/
+  const final = Object.entries(quantidadeDia).map((dado) => {
     return {
-      'year': dado[0],
-      'quantidadeAno': dado[1]
+      'Data': dado[0],
+      'Quantidade': dado[1]
     }
   });
 
@@ -42,10 +52,10 @@ function App() {
     <h1>Visualização de dados temporais de estrelas no GitHub</h1>
 
     <div className="line-chart">
-      <LineChart width={400} height={400} data={final}>
-        <Line type="monotone" dataKey="quantidadeAno" stroke="#ef476f" />
+      <LineChart width={700} height={500} data={final}>
+        <Line type="monotone" dataKey="Quantidade" stroke="#ef476f" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="year" />
+        <XAxis dataKey="Data" />
         <YAxis />
         <Tooltip />
       </LineChart>
