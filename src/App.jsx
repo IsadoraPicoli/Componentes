@@ -10,13 +10,7 @@ const SCALE = ["Linear", "Logaritmic"];
 function App() {
   const [series, setSeries] = useState(SERIES[0]);
   const [scale, setScale] = useState(SCALE[0]);
-
-  const handleChangeSeries = event =>
-    setSeries(event.target.value);
-
-  const handleChangeScale = event =>
-    setScale(event.target.value);
-
+  
   const transformedDataset = 
     originalData.map((data) => {
      data.starred_at = new Date(data.starred_at);
@@ -39,13 +33,55 @@ function App() {
         'Quantidade': dado[1]
       }
     });
-  }*/
-  const final = Object.entries(quantidadeDia).map((dado) => {
+  }
+
+  var final = convertObject(quantidadeDia);*/
+
+  
+  let final = Object.entries(quantidadeDia).map((dado) => {
     return {
       'Data': dado[0],
       'Quantidade': dado[1]
     }
   });
+
+  const handleChangeSeries = event => {
+    setSeries(event.target.value);
+  }
+  
+  const handleChangeScale = event =>
+    setScale(event.target.value);
+
+  
+  if (series === SERIES[0]) {
+    final = Object.entries(quantidadeDia).map((dado) => {
+      return {
+        'Data': dado[0],
+        'Quantidade': dado[1]
+      }
+    });
+  } else if (series === SERIES[1]) {
+    final = Object.entries(quantidadeSemana).map((dado) => {
+      return {
+        'Data': dado[0],
+        'Quantidade': dado[1]
+      }
+    });
+  } else if (series === SERIES[2]) {
+    final = Object.entries(quantidadeMes).map((dado) => {
+      return {
+        'Data': dado[0],
+        'Quantidade': dado[1]
+      }
+    });
+  } else if (series === SERIES[3]) {
+    final = Object.entries(quantidadeAno).map((dado) => {
+      return {
+        'Data': dado[0],
+        'Quantidade': dado[1]
+      }
+    }); 
+  } 
 
   return (
     <div>
@@ -63,7 +99,7 @@ function App() {
 
     <div className="container">
       <div className="selector">
-        <label for="series_select" className="label">
+        <label htmlFor="series_select" className="label">
           <strong>Series: </strong>
         </label>
         <select id="series_select" onChange={handleChangeSeries}>
@@ -72,7 +108,7 @@ function App() {
       </div>
       
       <div className="selector">
-        <label for="scale_select" className="label">
+        <label htmlFor="scale_select" className="label">
           <strong>Scale: </strong>
         </label>
         <select onChange={handleChangeScale}>
