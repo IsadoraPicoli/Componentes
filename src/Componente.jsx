@@ -91,7 +91,7 @@ export function Componente() {
       <LineChart width={700} height={500} data={final}>
         <Line type="monotone" dataKey="Quantidade" stroke="#ef476f" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="Data"  scale={escala}  />
+        <XAxis dataKey="Data"  /* scale={escala} */ />
         <YAxis />
         <Tooltip />
       </LineChart>
