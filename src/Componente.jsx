@@ -1,8 +1,11 @@
+/* Os códigos comentados estão relacionados a mudança de escala do gráfico */
+
 import { useState } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import _ from 'lodash';
 import originalData from './data/npkgz.json';
 import './App.css';
+// import { scaleLog } from 'd3-scale';
 
 const SERIES = ["day", "week", "mouth", "year"];
 const SCALE = ["Linear", "Logarithmic"];
@@ -32,6 +35,8 @@ export function Componente() {
       'Quantidade': dado[1]
     }
   });
+
+  // let escala = "auto";
 
   const handleChangeSeries = event => {
     setSeries(event.target.value);
@@ -70,6 +75,14 @@ export function Componente() {
     }); 
   }
 
+  /*
+  if (scale === SCALE[0]) {
+    escala = "linear";
+  } else if (scale === SCALE[1]) {
+    escala = "log";
+  }
+  */
+
   return (
     <div>
     <h1>Visualização de dados temporais de estrelas no GitHub</h1>
@@ -78,7 +91,7 @@ export function Componente() {
       <LineChart width={700} height={500} data={final}>
         <Line type="monotone" dataKey="Quantidade" stroke="#ef476f" />
         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <XAxis dataKey="Data" />
+        <XAxis dataKey="Data"  scale={escala}  />
         <YAxis />
         <Tooltip />
       </LineChart>
